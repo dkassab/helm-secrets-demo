@@ -40,8 +40,8 @@ spec:
       - name: {{ .Chart.Name }}
       {{- end }}        
         image: {{ .Values.image.repository }}/{{ .Values.image.name}}:{{ .Values.image.tag }}
+        command: ["/bin/sh", "-c", "export LOGIN=$(cat /etc/secret-volume/user);export PWD=$(cat /etc/secret-volume/password);while true; do echo hello $LOGIN your password is $PWD; sleep 10; done"]
         {{- if .Values.env.enabled }}
-        command: ["bash", "-c", "export LOGIN=$(cat /etc/secret-volume/user);export PWD=$(cat /etc/secret-volume/password);while true; do echo hello $LOGIN your password is $PWD; sleep 10; done"]
         env:
         {{- if .Values.env.general }}
         {{- range $name, $value := .Values.env.general }}
@@ -93,18 +93,6 @@ spec:
         {{- if .Values.extraVolumeMounts }}
 {{ toYaml .Values.extraVolumeMounts | trimSuffix "\n" | indent 8 }}
         {{- end }}
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: {{ .Values.statusPort }}
-            scheme: HTTP
-          initialDelaySeconds: 5
-        readinessProbe:
-          httpGet:
-            path: /healthz
-            port: {{ .Values.statusPort }}
-            scheme: HTTP
-          initialDelaySeconds: 5  
         resources:
 {{ toYaml .Values.resources | trimSuffix "\n" | indent 12 }}
       imagePullSecrets:

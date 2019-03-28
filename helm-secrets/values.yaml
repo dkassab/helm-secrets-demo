@@ -6,7 +6,7 @@ strategy:
   type: Recreate
   rollingUpdate: null
 image:
-  repository: 
+  repository: docker.io 
   name: alpine
   tag: latest
 volumes:
@@ -28,3 +28,7 @@ resources:
    requests:
     cpu: 10m
     memory: 20Mi
+env:
+  enabled: false
+username: dima
+password: hellodima
