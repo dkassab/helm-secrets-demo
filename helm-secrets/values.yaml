@@ -30,5 +30,3 @@ resources:
     memory: 20Mi
 env:
   enabled: false
-username: dima
-password: hellodima
