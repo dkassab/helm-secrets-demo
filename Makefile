@@ -1,7 +1,6 @@
 APP_NAME=helm-secrets
 VERSION=1.1.$(GO_PIPELINE_COUNTER)
 helm-package:
-	helm init
 	helm package --version $(VERSION) $(APP_NAME)
 
 helm-push:
