@@ -1,4 +1,4 @@
-APP_NAME=helm-secret
+APP_NAME=helm-secrets
 CURRENT_WORKING_DIR=$(pwd)
 VERSION=1.1.$(GO_PIPELINE_COUNTER)
 helm-package:
