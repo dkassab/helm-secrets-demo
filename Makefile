@@ -1,6 +1,5 @@
 APP_NAME=helm-secrets
-CURRENT_WORKING_DIR=$(shell pwd)
-VERSION=1.1.$(GO_PIPELINE_COUNTER)
+CURRENT_WORKING_DIR=$(pwd)
 helm-package:
 	helm package --version $(VERSION) $(APP_NAME)
 
