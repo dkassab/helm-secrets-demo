@@ -10,7 +10,7 @@ helm-push:
 	helm registry push quay.io
 
 deploy:
-	helm  upgrade --install --reuse-values $(APP_NAME)  $(APP_NAME)-$(VERSION).tgz
+	helm  upgrade --install --reuse-values $(APP_NAME)  $(CURRENT_WORKING_DIR)/$(APP_NAME)-$(VERSION).tgz
 
 clean:
 	rm -rf *.tgz
