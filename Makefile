@@ -1,5 +1,5 @@
 APP_NAME=helm-secrets
-CURRENT_WORKING_DIR=$("/var/lib/go-agent/pipelines/helm-secrets")
+CURRENT_WORKING_DIR=/var/lib/go-agent/pipelines/helm-secrets
 GO_PIPELINE_COUNTER?="unknown"
 VERSION=1.1.$(GO_PIPELINE_COUNTER)
 helm-package:
