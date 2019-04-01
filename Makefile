@@ -1,4 +1,4 @@
-APP_NAME=helm-secrets-demo
+APP_NAME=helm-secrets-pgp-demo
 CURRENT_WORKING_DIR=$(shell pwd)
 
 QUAY_REPO=dkassab
