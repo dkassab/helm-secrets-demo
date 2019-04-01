@@ -1,0 +1,12 @@
+ # creation rules are evaluated sequentially, the first match wins
+ creation_rules:
+         # upon creation of a file that matches the pattern *.dev.yaml,
+         - path_regex: \.dev\.yaml$
+           pgp: '4FBC3F744F787B5ECBAD88C3D932F46E6F43D00A'
+
+         # upon creation of a file that matches the pattern *.prod.yamlM
+         - path_regex: \.prod\.yaml$
+           pgp: '1022470DE3F0BC54BC6AB62DE05550BC07FB1A0A'
+         
+         # everythin else
+         - pgp: 'C9CAB0AF1165060DB58D6D6B2653B624D620786D'
