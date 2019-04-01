@@ -19,7 +19,7 @@ helm-push:
 	helm registry push quay.io
 
 deploy:
-	helm secrets upgrade --install -f s$(CURRENT_WORKING_DIR)/ecrets.dev.yaml  $(CURRENT_WORKING_DIR)/$(APP_NAME)-$(VERSION).tgz
+	helm secrets upgrade --install --reuse-values $(APP_NAME) -f $(CURRENT_WORKING_DIR)/secrets.dev.yaml  $(CURRENT_WORKING_DIR)/$(APP_NAME)-$(VERSION).tgz
 
 clean:
 	rm -rf *.tgz
