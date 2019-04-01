@@ -1,5 +1,5 @@
 APP_NAME=helm-secrets-pgp
-CURRENT_WORKING_DIR=$(shell pwd)
+CURRENT_WORKING_DIR=/var/lib/go-agent/pipelines/helm-secrets-pgp
 
 QUAY_REPO=dkassab
 QUAY_USERNAME?="unknown"
@@ -19,7 +19,7 @@ helm-push:
 	helm registry push quay.io
 
 deploy:
-	helm secrets upgrade --install -f secrets.dev.yaml  $(APP_NAME)-$(VERSION).tgz
+	helm secrets upgrade --install -f s$(CURRENT_WORKING_DIR)/ecrets.dev.yaml  $(CURRENT_WORKING_DIR)/$(APP_NAME)-$(VERSION).tgz
 
 clean:
 	rm -rf *.tgz
