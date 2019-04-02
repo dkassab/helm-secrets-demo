@@ -1,0 +1,7 @@
+apiVersion: v1
+description: A Helm chart for helm-secret-pgp-demo
+name: helm-secrets-pgp
+version: 0.1.0
+maintainers:
+    - name: Dima Kassab
+      email: dkassab@cloudops.com

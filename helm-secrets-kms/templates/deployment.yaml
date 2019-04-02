@@ -1,0 +1,114 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "name" . }}
+  labels:
+    app: {{ template "name" . }}
+    helm_chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+{{- if .Values.extraLabels }}
+{{ toYaml .Values.extraLabels | trimSuffix "\n" | indent 4 }}
+{{- end }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+{{- if .Values.strategy }}
+  strategy:
+{{ toYaml .Values.strategy | trimSuffix "\n" | indent 4 }}
+{{- end }}
+  selector:
+    matchLabels:
+      app: {{ template "name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+    {{- if .Values.podAnnotations }}
+      annotations:
+{{ toYaml .Values.podAnnotations | trimSuffix "\n" | indent 8 }}
+    {{- end }}  
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      {{- if .Values.terminationGracePeriod }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriod }}
+      {{- end }}
+      containers:
+      {{- if .Values.mainContainerName }}
+      - name: {{ .Values.mainContainerName }}
+      {{- else }}
+      - name: {{ .Chart.Name }}
+      {{- end }}        
+        image: {{ .Values.image.repository }}/{{ .Values.image.name}}:{{ .Values.image.tag }}
+        command: ["/bin/sh", "-c", "export LOGIN=$(cat /etc/secret-volume/user);export PWD=$(cat /etc/secret-volume/password);while true; do echo hello $LOGIN your password is $PWD; sleep 10; done"]
+        {{- if .Values.env.enabled }}
+        env:
+        {{- if .Values.env.general }}
+        {{- range $name, $value := .Values.env.general }}
+        {{- if not (empty $value) }}
+        - name: {{ $name  }}
+          value: {{ $value | quote }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
+        {{- range $secret := .Values.env.secrets }}
+        {{- if not ( empty $secret) }}
+        - name: {{ $secret.name }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $secret.secretName }}
+              key: {{ $secret.secretKey }}
+        {{- end }}
+        {{- end }}
+        {{- range $config := .Values.env.configMap }}
+        {{- if not ( empty $config) }}
+        - name: {{ $config.name }}
+          valueFrom:
+            configMapKeyRef:
+              name: {{ $config.configMapName }}
+              key: {{ $config.configMapkey }}
+           {{- end }}
+        {{- end }}
+        {{- range  $fieldPath := .Values.env.downwardAPI }}
+        - name: {{ $fieldPath.name }}
+          valueFrom:
+            fieldRef:
+              fieldPath: {{ $fieldPath.fieldRefPath }}
+        {{- end }}
+        {{- end }}
+        {{- if or (.Values.ports) (.Values.statusPort) }}
+        ports:
+        {{- range $name, $value := .Values.ports }}
+        - containerPort: {{ $value.port }}
+          name: {{ $value.name }}
+        {{- end }}
+        {{- end }}
+        {{- if .Values.statusPort }}
+        - containerPort: {{ .Values.statusPort }}
+          name: status
+        {{- end }}
+        volumeMounts:
+        - name: secret-volume
+          mountPath: /etc/secret-volume
+        {{- if .Values.extraVolumeMounts }}
+{{ toYaml .Values.extraVolumeMounts | trimSuffix "\n" | indent 8 }}
+        {{- end }}
+        resources:
+{{ toYaml .Values.resources | trimSuffix "\n" | indent 12 }}
+      imagePullSecrets:
+      - name: {{ .Values.imagePullSecretName }}
+      volumes:
+      - name: {{ .Values.volumes.name }}
+        secret:
+          secretName: {{ .Values.volumes.clientTLSSecretName }}
+      {{- if .Values.extraVolumes }}
+{{ toYaml .Values.extraVolumes | trimSuffix "\n" | indent 6 }}
+      {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | trimSuffix "\n" | indent 8 }}
+    {{- end }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | trimSuffix "\n" | indent 8 }}
+    {{- end }}

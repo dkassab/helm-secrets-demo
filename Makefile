@@ -1,5 +1,5 @@
-APP_NAME=helm-secrets-pgp
-CURRENT_WORKING_DIR=/var/lib/go-agent/pipelines/helm-secrets-pgp
+APP_NAME=helm-secrets-kms
+CURRENT_WORKING_DIR=/var/lib/go-agent/pipelines/helm-secrets-kms
 
 QUAY_REPO=dkassab
 QUAY_USERNAME?="unknown"
