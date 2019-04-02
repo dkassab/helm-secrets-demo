@@ -21,5 +21,9 @@ helm-push:
 deploy:
 	helm secrets upgrade --install --reuse-values $(APP_NAME) -f $(CURRENT_WORKING_DIR)/secrets.dev.yaml  $(CURRENT_WORKING_DIR)/$(APP_NAME)-$(VERSION).tgz
 
+deploy-production:
+	helm secrets upgrade --install --reuse-values $(APP_NAME) -f $(CURRENT_WORKING_DIR)/secrets.prod.yaml  $(CURRENT_WORKING_DIR)/$(APP_NAME)-$(VERSION).tgz
+
+
 clean:
 	rm -rf *.tgz
