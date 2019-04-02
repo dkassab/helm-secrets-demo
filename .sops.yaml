@@ -6,7 +6,6 @@
 
          # upon creation of a file that matches the pattern *.prod.yamlM
          - path_regex: \.prod\.yaml$
-           pgp: '1022470DE3F0BC54BC6AB62DE05550BC07FB1A0A'
-         
+           gcp_kms: projects/k8s-the-hard-way-222322/locations/global/keyRings/sops/cryptoKeys/sops-key
          # everythin else
          - pgp: 'C9CAB0AF1165060DB58D6D6B2653B624D620786D'
