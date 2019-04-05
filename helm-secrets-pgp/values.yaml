@@ -11,7 +11,7 @@ image:
   tag: latest
 volumes:
   name: secret-volume  
-  clientTLSSecretName: app-secret
+  clientTLSSecretName: app-secret-pgp
 ## use extraVoluems to include any additional volumes you have in the same format you would include them in the actual kubernetes resources manifests.
 extraVolumes: []
 # - name: test-volume
