@@ -10,7 +10,7 @@ GO_PIPELINE_COUNTER?="unknown"
 # Construct the tag.
 VERSION=1.1.$(GO_PIPELINE_COUNTER)
 helm-package:
-	helm init
+	helm init --service-account tiller
 	helm package --version $(VERSION) $(APP_NAME)
 
 helm-push:
